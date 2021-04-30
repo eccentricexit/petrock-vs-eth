@@ -69,6 +69,7 @@ function App() {
           <h5>Sources</h5>
           <p>https://gasnow.org</p>
           <p>https://bitcoinfees.earn.com</p>
+          <p>https://api.coingecko.com</p>
         </div>
     </div>
   );
