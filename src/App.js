@@ -47,15 +47,6 @@ function App() {
         <Title>It currently costs</Title>
         <div style={{ display: 'flex'}}>
           <Card
-            title={<Title style={{textAlign: 'center'}} level={2}>{ethFee?.toFixed(2)} USD</Title>}
-            bordered={false}
-            style={{ width: 300, margin: '8px', alignItems: 'center' }}
-            bodyStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}
-          >
-            <img style={{ marginBottom: '12px'}} alt="coin-icon" src={"https://duckduckgo.com/i/5c54b131.png"} width={80}/>
-            <p>to transfer ETH in about 3 minutes</p>
-          </Card>
-          <Card
             title={<Title style={{textAlign: 'center'}} level={2}>{btcFee?.toFixed(2)} USD</Title>}
             bordered={false}
             style={{ width: 300, margin: '8px', alignItems: 'center' }}
@@ -63,6 +54,15 @@ function App() {
           >
             <img style={{ marginBottom: '12px'}} alt="coin-icon" src={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.kJ-eAj8z-ikVHiFwn58K_QHaHa%26pid%3DApi&f=1"} width={80}/>
             <p>to transfer BTC in about 20 minutes</p>
+          </Card>
+          <Card
+            title={<Title style={{textAlign: 'center'}} level={2}>{ethFee?.toFixed(2)} USD</Title>}
+            bordered={false}
+            style={{ width: 300, margin: '8px', alignItems: 'center' }}
+            bodyStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}
+          >
+            <img style={{ marginBottom: '12px'}} alt="coin-icon" src={"https://duckduckgo.com/i/5c54b131.png"} width={80}/>
+            <p>to transfer ETH in about 3 minutes</p>
           </Card>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
