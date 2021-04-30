@@ -43,9 +43,17 @@ function App() {
         justifyContent: 'center',
         display: 'flex',
         flexDirection: 'column',
+        marginTop:'32px'
       }}>
-        <Title>It currently costs</Title>
-        <div style={{ display: 'flex'}}>
+        <Title style={{textAlign: 'center'}}>It currently costs</Title>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignContent: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+          }}
+        >
           <Card
             title={<Title style={{textAlign: 'center'}} level={2}>{btcFee?.toFixed(2)} USD</Title>}
             bordered={false}
