@@ -27,13 +27,14 @@ function App() {
     setInterval(fetchBtcFee, 10 * 1000);
   }, [fetchBtcFee]);
 
-  const [ethFee, setEthFee] = useState();
-  const fetchEthFee = useCallback(async () => {
+  const [ethFeeRapid, setEthFeeRapid] = useState();
+  const [ethFeeSlow, setEthFeeSlow] = useState();
+  const fetchethFeeRapid = useCallback(async () => {
     const { data } = await (
       await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=petrockvseth')
     ).json();
 
-    const { rapid } = data || {};
+    const { rapid, slow } = data || {};
     const {
       ethereum: { usd },
     } = await (
@@ -41,8 +42,15 @@ function App() {
     ).json();
     const ETH_IN_WEI = ethers.BigNumber.from(10).pow(ethers.BigNumber.from(18));
     const BASIC_TRANSFER_GAS = ethers.BigNumber.from(21000);
-    setEthFee(
+    setEthFeeRapid(
       ethers.BigNumber.from(rapid)
+        .mul(ethers.BigNumber.from(BASIC_TRANSFER_GAS))
+        .mul(ethers.BigNumber.from(usd * 100))
+        .div(ethers.BigNumber.from(ETH_IN_WEI))
+        .toNumber() / 100,
+    );
+    setEthFeeSlow(
+      ethers.BigNumber.from(slow)
         .mul(ethers.BigNumber.from(BASIC_TRANSFER_GAS))
         .mul(ethers.BigNumber.from(usd * 100))
         .div(ethers.BigNumber.from(ETH_IN_WEI))
@@ -50,9 +58,9 @@ function App() {
     );
   }, []);
   useEffect(() => {
-    fetchEthFee();
-    setInterval(fetchEthFee, 10 * 1000);
-  }, [fetchEthFee]);
+    fetchethFeeRapid();
+    setInterval(fetchethFeeRapid, 10 * 1000);
+  }, [fetchethFeeRapid]);
 
   return (
     <div
@@ -104,7 +112,7 @@ function App() {
         </Card>
         <Card
           bordered={false}
-          title={<Title level={2}>{ethFee?.toFixed(2)} USD</Title>}
+          title={<Title level={2}>{ethFeeRapid?.toFixed(2)} USD</Title>}
           style={{
             width: 300,
             margin: '24px',
@@ -129,6 +137,8 @@ function App() {
           <p style={{ margin: 0 }}>to transfer ETH in about 15 seconds</p>
         </Card>
       </div>
+      If you are as patient as a BTC user, you can pay {ethFeeSlow?.toFixed(2)} USD to transfer it
+      in 20 minutes.
       <div
         style={{
           display: 'flex',
