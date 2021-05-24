@@ -8,10 +8,11 @@ const { Title } = Typography;
 
 function App() {
   // Fees selected to get your tx confirmed in less than 20 minutes.
-  const [btcFee, setBtcFee] = useState();
-  const fetchBtcFee = useCallback(async () => {
+  const [btcFeeFastest, setBtcFeeFastest] = useState();
+  const [btcFeeCheapest, setBtcFeeCheapest] = useState();
+  const fetchBtcFeeFastest = useCallback(async () => {
     const data = await (await fetch('https://bitcoinfees.earn.com/api/v1/fees/recommended')).json();
-    const { fastestFee } = data || {};
+    const { fastestFee, hourFee } = data || {};
     const {
       bitcoin: { usd },
     } = await (
@@ -19,17 +20,18 @@ function App() {
     ).json();
     const BTC_IN_SATOSHIS = 100000000;
     const BTC_TRANSFER_BYTES = 250;
-    setBtcFee((fastestFee * BTC_TRANSFER_BYTES * usd) / BTC_IN_SATOSHIS);
+    setBtcFeeFastest((fastestFee * BTC_TRANSFER_BYTES * usd) / BTC_IN_SATOSHIS);
+    setBtcFeeCheapest((hourFee * BTC_TRANSFER_BYTES * usd) / BTC_IN_SATOSHIS);
   }, []);
 
   useEffect(() => {
-    fetchBtcFee();
-    setInterval(fetchBtcFee, 10 * 1000);
-  }, [fetchBtcFee]);
+    fetchBtcFeeFastest();
+    setInterval(fetchBtcFeeFastest, 10 * 1000);
+  }, [fetchBtcFeeFastest]);
 
   const [ethFeeRapid, setEthFeeRapid] = useState();
   const [ethFeeSlow, setEthFeeSlow] = useState();
-  const fetchethFeeRapid = useCallback(async () => {
+  const fetchEthFeeRapid = useCallback(async () => {
     const { data } = await (
       await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=petrockvseth')
     ).json();
@@ -58,9 +60,9 @@ function App() {
     );
   }, []);
   useEffect(() => {
-    fetchethFeeRapid();
-    setInterval(fetchethFeeRapid, 10 * 1000);
-  }, [fetchethFeeRapid]);
+    fetchEthFeeRapid();
+    setInterval(fetchEthFeeRapid, 10 * 1000);
+  }, [fetchEthFeeRapid]);
 
   return (
     <div
@@ -86,7 +88,7 @@ function App() {
       >
         <Card
           bordered={false}
-          title={<Title level={2}>{btcFee?.toFixed(2)} USD</Title>}
+          title={<Title level={2}>{btcFeeFastest?.toFixed(2)} USD</Title>}
           style={{
             width: 300,
             margin: '24px',
@@ -137,12 +139,11 @@ function App() {
           <p style={{ margin: 0 }}>to transfer ETH</p>
         </Card>
       </div>
-      <div style={{ maxWidth: '350px' }}>
-        <p>Speeds used: BTC (20 minutes) Eth (10 minutes).</p>
-        <p>
-          You can pay less to transafer BTC if you are willing to wait longer or{' '}
-          {ethFeeRapid?.toFixed(2)} USD to transfer ETH in about 15 seconds.
-        </p>
+      <p>Speeds used: BTC (20 minutes) Eth (10 minutes).</p>
+      <div style={{ maxWidth: '350px', fontSize: '16px' }}>
+        <h4>Alternatively you can:</h4>
+        <h5>- Pay {btcFeeCheapest?.toFixed(2)} USD to transfer BTC if in an hour.</h5>
+        <h5>- Pay {ethFeeRapid?.toFixed(2)} USD to transfer ETH in 15 seconds.</h5>
       </div>
       <div
         style={{
