@@ -43,17 +43,17 @@ function App() {
     const ETH_IN_WEI = ethers.BigNumber.from(10).pow(ethers.BigNumber.from(18));
     const BASIC_TRANSFER_GAS = ethers.BigNumber.from(21000);
     setEthFeeRapid(
-      ethers.BigNumber.from(rapid)
-        .mul(ethers.BigNumber.from(BASIC_TRANSFER_GAS))
-        .mul(ethers.BigNumber.from(usd * 100))
-        .div(ethers.BigNumber.from(ETH_IN_WEI))
+      ethers.BigNumber.from(Math.floor(rapid))
+        .mul(BASIC_TRANSFER_GAS)
+        .mul(ethers.BigNumber.from(Math.floor(usd) * 100))
+        .div(ETH_IN_WEI)
         .toNumber() / 100,
     );
     setEthFeeSlow(
-      ethers.BigNumber.from(slow)
-        .mul(ethers.BigNumber.from(BASIC_TRANSFER_GAS))
-        .mul(ethers.BigNumber.from(usd * 100))
-        .div(ethers.BigNumber.from(ETH_IN_WEI))
+      ethers.BigNumber.from(Math.floor(slow))
+        .mul(BASIC_TRANSFER_GAS)
+        .mul(ethers.BigNumber.from(Math.floor(usd) * 100))
+        .div(ETH_IN_WEI)
         .toNumber() / 100,
     );
   }, []);
@@ -108,11 +108,11 @@ function App() {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/BTC_Logo.svg/1200px-BTC_Logo.svg.png"
             width={100}
           />
-          <p style={{ margin: 0 }}>to transfer BTC in about 20 minutes</p>
+          <p style={{ margin: 0 }}>to transfer BTC</p>
         </Card>
         <Card
           bordered={false}
-          title={<Title level={2}>{ethFeeRapid?.toFixed(2)} USD</Title>}
+          title={<Title level={2}>{ethFeeSlow?.toFixed(2)} USD</Title>}
           style={{
             width: 300,
             margin: '24px',
@@ -134,11 +134,32 @@ function App() {
             src="https://duckduckgo.com/i/5c54b131.png"
             width={100}
           />
-          <p style={{ margin: 0 }}>to transfer ETH in about 15 seconds</p>
+          <p style={{ margin: 0 }}>to transfer ETH</p>
         </Card>
       </div>
-      If you are as patient as a BTC user, you can pay {ethFeeSlow?.toFixed(2)} USD to transfer it
-      in 20 minutes.
+      <div style={{ maxWidth: '350px' }}>
+        <p>Speeds used: BTC (20 minutes) Eth (10 minutes).</p>
+        <p>
+          You can pay less to transafer BTC if you are willing to wait longer or{' '}
+          {ethFeeRapid?.toFixed(2)} USD to transfer ETH in about 15 seconds.
+        </p>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          marginTop: '32px',
+        }}
+      >
+        <h5>Other interesting projects</h5>
+        <a href="https://howmanyconfs.com/">https://howmanyconfs.com/</a>
+        <a href="https://cryptofees.info/">https://cryptofees.info/</a>
+        <a href="https://money-movers.info/">https://money-movers.info/</a>
+        <a href="https://open-orgs.info/">https://open-orgs.info/</a>
+        <a href="https://stakers.info/">https://stakers.info/</a>
+      </div>
       <div
         style={{
           display: 'flex',
