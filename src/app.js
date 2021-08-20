@@ -174,7 +174,6 @@ function App() {
         <a href="https://gasnow.org">https://gasnow.org</a>
         <a href="https://bitcoinfees.earn.com">https://bitcoinfees.earn.com</a>
         <a href="https://api.coingecko.com">https://api.coingecko.com</a>
-        <a href="https://github.com/mtsalenc/petrock-vs-eth">Source code (PRs welcome)</a>
       </div>
     </div>
   );
