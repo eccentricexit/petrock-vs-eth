@@ -173,6 +173,7 @@ function App() {
         <a href="https://money-movers.info/">https://money-movers.info/</a>
         <a href="https://open-orgs.info/">https://open-orgs.info/</a>
         <a href="https://stakers.info/">https://stakers.info/</a>
+        <a href="https://coin.dance/nodes">https://coin.dance/nodes</a>
       </div>
       <div
         style={{
